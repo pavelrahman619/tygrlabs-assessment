@@ -24,9 +24,7 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
         <div class="mobile-home__time-display">
           <div class="mobile-home__hour-section">
             <span class="mobile-home__hour-number">{{ selectedHours() }}</span>
-            <span class="mobile-home__hour-label"
-              >hour{{ selectedHours() !== 1 ? 's' : '' }}</span
-            >
+            <span class="mobile-home__hour-label">hours</span>
           </div>
         </div>
 
@@ -37,18 +35,20 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
             <div class="mobile-home__timeline-icon">🏟️</div>
           </div>
           <div class="mobile-home__timeline-info">
-            <span class="mobile-home__game-info">Game starts at 8:00 PM</span>
+            <span class="mobile-home__game-info">Game starts at {{ getGameStartTime() }}</span>
           </div>
           <div class="mobile-home__time-range">
-            <span class="mobile-home__start-time">6:00 PM</span>
-            <span class="mobile-home__end-time">01:00 AM</span>
+            <span class="mobile-home__start-time">{{ getRideStartTime() }}</span>
+            <span class="mobile-home__end-time">{{ getRideEndTime() }}</span>
           </div>
         </div>
 
         <!-- Recommended Badge -->
-        <div class="mobile-home__recommended">
-          <span class="mobile-home__recommended-text">Recommended</span>
-        </div>
+        @if (selectedHours() === 6) {
+          <div class="mobile-home__recommended">
+            <span class="mobile-home__recommended-text">Recommended</span>
+          </div>
+        }
 
         <!-- Slider -->
         <div class="mobile-home__slider-section">
@@ -75,19 +75,19 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 
               <div
                 class="mobile-home__slider-dot"
-                [class.active]="selectedHours() >= 1"
+                [class.active]="selectedHours() >= 6"
               ></div>
               <div
                 class="mobile-home__slider-dot"
-                [class.active]="selectedHours() >= 2"
+                [class.active]="selectedHours() >= 7"
               ></div>
               <div
                 class="mobile-home__slider-dot"
-                [class.active]="selectedHours() >= 3"
+                [class.active]="selectedHours() >= 8"
               ></div>
               <div
                 class="mobile-home__slider-dot"
-                [class.active]="selectedHours() >= 4"
+                [class.active]="selectedHours() >= 9"
               ></div>
 
               <div
@@ -117,7 +117,7 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 
               <div
                 class="mobile-home__slider-dot"
-                [class.active]="selectedHours() >= 6"
+                [class.active]="selectedHours() >= 11"
               ></div>
             </div>
           </div>
@@ -535,9 +535,80 @@ export class MobileHomeComponent {
     const hours = this.selectedHours();
     // Position the handle accounting for its width (48px)
     // The track starts at star (18px) and handle is 48px wide
+    // Range is now 6-11 hours (5 hour range)
     const trackWidth = 100; // percentage
-    const handleOffset = 24; // Half of handle width in pixels
-    return ((hours - 1) / 5) * (trackWidth - 12); // 12% accounts for handle width
+    return ((hours - 6) / 5) * (trackWidth - 12); // 12% accounts for handle width
+  }
+
+  getGameStartTime(): string {
+    // Game always starts at 8:00 PM
+    return '8:00 PM';
+  }
+
+  getRideStartTime(): string {
+    const hours = this.selectedHours();
+    // Start time is based on selected hours: 6 hours = 6:00 PM, 7 hours = 7:00 PM, etc.
+    const startHour = 12 + hours; // 12 + 6 = 18 (6:00 PM), 12 + 7 = 19 (7:00 PM)
+
+    // Handle time conversion to 12-hour format
+    if (startHour === 12) {
+      return '12:00 PM';
+    } else if (startHour > 12 && startHour < 24) {
+      return `${startHour - 12}:00 PM`;
+    } else if (startHour >= 24) {
+      // Handle overflow to next day
+      const adjustedHour = startHour - 24;
+      if (adjustedHour === 0) {
+        return '12:00 AM';
+      } else if (adjustedHour < 12) {
+        return `${adjustedHour}:00 AM`;
+      } else {
+        return `${adjustedHour - 12}:00 PM`;
+      }
+    } else {
+      // startHour < 12
+      if (startHour === 0) {
+        return '12:00 AM';
+      }
+      return `${startHour}:00 AM`;
+    }
+  }
+
+  getRideEndTime(): string {
+    const hours = this.selectedHours();
+    // End time = start time + selected hours (actual ride duration)
+    const gameStartHour = 20; // 8 PM in 24-hour format
+    const rideStartHour = gameStartHour - hours;
+
+    // Calculate actual end time based on ride start + duration
+    const rideEndHour = rideStartHour + hours; // This is the time when your ride experience ends
+
+    // The ride experience ends at game start time, but what if we want to show
+    // when the TOTAL experience ends (after game)? Let's add game duration
+    const additionalTime = hours / 2; // Add proportional time based on ride duration
+    const totalExperienceEndHour = rideEndHour + Math.floor(additionalTime);
+    const minutes = Math.round((additionalTime % 1) * 60); // Convert fractional hour to minutes
+
+    let finalEndHour = totalExperienceEndHour;
+
+    // Handle day overflow
+    if (finalEndHour >= 24) {
+      finalEndHour = finalEndHour - 24;
+    }
+
+    // Format minutes
+    const minutesStr = minutes === 0 ? '00' : minutes.toString().padStart(2, '0');
+
+    if (finalEndHour === 0) {
+      return `12:${minutesStr} AM`;
+    } else if (finalEndHour <= 12) {
+      if (finalEndHour === 12) {
+        return `12:${minutesStr} PM`;
+      }
+      return `${finalEndHour}:${minutesStr} AM`;
+    } else {
+      return `${finalEndHour - 12}:${minutesStr} PM`;
+    }
   }
 
   onSliderClick(event: MouseEvent): void {
@@ -548,8 +619,8 @@ export class MobileHomeComponent {
     const clickX = event.clientX - rect.left;
     const percentage = Math.max(0, Math.min(1, clickX / rect.width));
 
-    const hours = Math.round(1 + percentage * 5);
-    this.selectedHours.set(Math.max(1, Math.min(6, hours)));
+    const hours = Math.round(6 + percentage * 5);
+    this.selectedHours.set(Math.max(6, Math.min(11, hours)));
   }
 
   onSliderMouseDown(event: MouseEvent): void {
@@ -569,8 +640,8 @@ export class MobileHomeComponent {
       const moveX = e.clientX - rect.left;
       const percentage = Math.max(0, Math.min(1, moveX / rect.width));
 
-      const hours = Math.round(1 + percentage * 5);
-      this.selectedHours.set(Math.max(1, Math.min(6, hours)));
+      const hours = Math.round(6 + percentage * 5);
+      this.selectedHours.set(Math.max(6, Math.min(11, hours)));
     };
 
     const handleMouseUp = () => {
@@ -600,8 +671,8 @@ export class MobileHomeComponent {
       const moveX = e.touches[0].clientX - rect.left;
       const percentage = Math.max(0, Math.min(1, moveX / rect.width));
 
-      const hours = Math.round(1 + percentage * 5);
-      this.selectedHours.set(Math.max(1, Math.min(6, hours)));
+      const hours = Math.round(6 + percentage * 5);
+      this.selectedHours.set(Math.max(6, Math.min(11, hours)));
     };
 
     const handleTouchEnd = () => {
