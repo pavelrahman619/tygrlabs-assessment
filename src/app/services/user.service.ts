@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UserService {
-  
+
   constructor() { }
 
   // API interactions will go here
