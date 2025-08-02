@@ -11,6 +11,7 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
           <span class="mobile-home__chevron">‹</span>
         </button>
         <h1 class="mobile-home__title">Set Total Ride Hour</h1>
+        <div class="mobile-home__progress-line"></div>
       </div>
 
       <!-- Main Content -->
@@ -208,6 +209,15 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
         display: flex;
         align-items: center;
         padding: 0 16px;
+      }
+
+      &__progress-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 99px;
+        height: 2px;
+        background-color: #2169db;
       }
 
       &__back-btn {
