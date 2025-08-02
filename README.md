@@ -2,6 +2,47 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
 
+## Project Structure
+
+This project follows a structured approach for scalable Angular development with mobile responsiveness:
+
+```
+src/
+├── app/
+│   ├── components/       # Reusable UI components
+│   ├── pages/            # Desktop and mobile views
+│   │   └── mobile/       # Mobile-specific components
+│   ├── services/         # API interactions and business logic
+│   ├── models/           # TypeScript interfaces/types
+│   └── app.module.ts     # Main application module
+├── assets/
+│   └── scss/
+│       ├── _variables.scss  # Colors, spacing, typography
+│       ├── _mixins.scss     # Reusable media queries, flex/grid
+│       └── style.scss       # Main stylesheet imports
+└── index.html
+```
+
+## Development Guidelines
+
+### SCSS Architecture
+- **BEM Naming Convention**: Follow `block__element--modifier` structure
+- **Variables**: Use SCSS variables for colors, spacing, and typography consistency
+- **Mixins**: Leverage mixins for responsive design and common layouts
+- **Mobile-First**: Use `max-width: 767px` for mobile overrides
+
+### Angular Best Practices
+- **Standalone Components**: Use standalone components over NgModules
+- **Signals**: Implement signals for state management
+- **TypeScript**: Follow strict typing with proper interfaces
+- **Mobile Strategy**: Place mobile-specific views under `/pages/mobile/`
+
+### Component Organization
+- Keep components focused on single responsibility
+- Use `input()` and `output()` functions instead of decorators
+- Implement `OnPush` change detection strategy
+- Create reusable components in the `/components` folder
+
 ## Development server
 
 To start a local development server, run:

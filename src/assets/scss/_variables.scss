@@ -1,0 +1,29 @@
+// Variables for colors, spacing, typography
+// BEM Naming Convention: block__element--modifier
+
+// Colors
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$warning-color: #ffc107;
+$info-color: #17a2b8;
+
+$text-color: #333;
+$bg-color: #fff;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// Typography
+$font-family-base: 'Arial', sans-serif;
+$font-size-base: 16px;
+$font-size-sm: 14px;
+$font-size-lg: 18px;
+
+// Breakpoints
+$mobile-breakpoint: 767px;
