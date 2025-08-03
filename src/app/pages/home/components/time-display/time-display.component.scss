@@ -1,0 +1,173 @@
+@import '../../../../../assets/scss/variables';
+@import '../../../../../assets/scss/mixins';
+
+.time-display {
+  width: 100%;
+  max-width: 592px;
+  @include flex-column;
+  justify-content: center;
+  margin: 0 auto;
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    @include mobile {
+      @include flex-column;
+      gap: 12px;
+      text-align: center;
+    }
+  }
+
+  &__start-time,
+  &__end-time {
+    @include responsive-font($font-size-xxl, 20px);
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+    letter-spacing: -0.2px;
+    line-height: 32px;
+
+    @include mobile {
+      line-height: 28px;
+    }
+  }
+
+  &__game-info {
+    background-color: $white;
+    padding: $spacing-sm;
+    border-radius: 16px;
+    text-align: center;
+
+    @include mobile {
+      padding: 6px;
+      border-radius: 12px;
+    }
+  }
+
+  &__game-label {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: $text-muted;
+    line-height: 22px;
+
+    @include mobile {
+      font-size: $font-size-md;
+      line-height: 20px;
+    }
+  }
+
+  &__game-time {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+    line-height: 22px;
+
+    @include mobile {
+      font-size: $font-size-md;
+      line-height: 20px;
+    }
+  }
+
+  &__timeline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px;
+
+    @include mobile {
+      height: 36px;
+      @include flex-column;
+      gap: $spacing-sm;
+    }
+  }
+
+  &__timeline-start {
+    display: flex;
+    align-items: center;
+    width: 225px;
+    height: 44px;
+    background-color: $white;
+    border-radius: 0 50px 50px 0;
+    padding: 0 12px;
+
+    @include mobile {
+      width: 100%;
+      height: 36px;
+      border-radius: 18px;
+    }
+  }
+
+  &__timeline-gradient {
+    flex: 1;
+    height: 16px;
+    border-radius: 50px;
+    background: linear-gradient(90deg, $green-accent 0%, rgba(255, 255, 255, 0) 100%);
+
+    @include mobile {
+      height: 12px;
+    }
+  }
+
+  &__pickup-arrow {
+    margin-left: -12px;
+
+    @include mobile {
+      width: 24px;
+      height: 24px;
+      margin-left: -8px;
+    }
+  }
+
+  &__timeline-middle {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    position: relative;
+
+    @include mobile {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  &__middle-arrow {
+    position: absolute;
+    left: 20px;
+
+    @include mobile {
+      position: static;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__middle-line {
+    flex: 1;
+    height: 44px;
+    margin: 0 -42px 0 -40px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 271 44'%3E%3Cpath fill='%23D3E1F8' d='M0 0h271v44H0z'/%3E%3C/svg%3E");
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  &__stadium-icon {
+    position: absolute;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background-color: $blue-light;
+    border-radius: 50px;
+    @include flex-center;
+
+    @include mobile {
+      position: static;
+      width: 48px;
+      height: 48px;
+      margin-left: 12px;
+    }
+  }
+}
