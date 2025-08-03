@@ -38,3 +38,51 @@
   grid-template-columns: repeat($columns, 1fr);
   gap: $gap;
 }
+
+// Button mixins
+@mixin button-base {
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: $font-family-base;
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: $blue-primary;
+  color: $white;
+
+  &:hover {
+    background-color: darken($blue-primary, 10%);
+  }
+}
+
+// Card mixins
+@mixin card-base {
+  background-color: $white-overlay;
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+}
+
+@mixin card-solid {
+  background-color: $white;
+  border-radius: 24px;
+}
+
+// Responsive spacing
+@mixin responsive-padding($desktop: $spacing-xl, $mobile: $spacing-md) {
+  padding: $mobile;
+
+  @include desktop {
+    padding: $desktop;
+  }
+}
+
+// Responsive font sizes
+@mixin responsive-font($desktop-size, $mobile-size) {
+  font-size: $mobile-size;
+
+  @include desktop {
+    font-size: $desktop-size;
+  }
+}

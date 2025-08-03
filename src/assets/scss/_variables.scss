@@ -2,12 +2,26 @@
 // BEM Naming Convention: block__element--modifier
 
 // Colors
-$primary-color: #007bff;
+$primary-color: #2169db;
 $secondary-color: #6c757d;
 $success-color: #28a745;
 $danger-color: #dc3545;
 $warning-color: #ffc107;
 $info-color: #17a2b8;
+
+// Design System Colors
+$blue-primary: #2169db;
+$blue-light: #d3e1f8;
+$blue-gradient-start: #f0f6ff;
+$gray-light: #f3f3f3;
+$green-accent: #79e9af;
+$text-primary: #141414;
+$text-secondary: #212121;
+$text-muted: rgba(20, 20, 20, 0.3);
+$text-light: rgba(20, 20, 20, 0.7);
+$white: #ffffff;
+$white-overlay: rgba(255, 255, 255, 0.5);
+$white-border: rgba(255, 255, 255, 0.8);
 
 $text-color: #333;
 $bg-color: #fff;
@@ -22,8 +36,18 @@ $spacing-xl: 32px;
 // Typography
 $font-family-base: 'Arial', sans-serif;
 $font-size-base: 16px;
-$font-size-sm: 14px;
+$font-size-sm: 12px;
+$font-size-md: 14px;
 $font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-xxl: 24px;
+$font-size-xxxl: 36px;
+$font-size-huge: 96px;
+
+// Font weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
 
 // Breakpoints
 $mobile-breakpoint: 767px;
